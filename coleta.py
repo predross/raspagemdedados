@@ -1,63 +1,64 @@
+import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 
-url = "https://divulgacandcontas.tse.jus.br/divulga/#/estados/2020/2030402020/PR/municipios"
-
 # Configurando o navegador
 options = webdriver.ChromeOptions()
-# options.add_argument("--headless")
-options.add_argument('--window-size=1200,600')
+options.add_argument("--window-size=1200x600")
 
-# Web driver, que instala o navegador padrão utilizado na máquina do cliente
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+# Configurando o ChromeDriver usando o ChromeDriverManager
+driver = webdriver.Chrome(service=webdriver.chrome.service.Service(ChromeDriverManager().install()), options=options)
 
-def Exec_scrapping():
-        
-    # Abrir o navegador
-    driver.get(url)
-    print('- Iniciou o Chrome')
-    sleep(6)
-    
-    def first_scrapping():
-        
-        #href="#/candidato/2020/2030402020/76910/160001051906"
-        # Clicar na imagem para ir na página da notícia
-        titulo = driver.find_element(By.CLASS_NAME, 'img-thumbnail')
-        print('Print do elemento', titulo)
-        titulo.click()
-        print('-- click in title')
-        sleep(3)
-    
-    first_scrapping()
-    
-    def full_scrapping():
-           
-        # Obter os elementos da página com BeautifulSoup
-        page_source = BeautifulSoup(driver.page_source, features="lxml")
-        
-        print('---------------------------------------------')
-        
-        titulo = page_source.find('h1', class_='ng-binding')
-        # fort_tirulo = titulo.text
-        # print(' --TITULO : ',fort_tirulo)
-        
-        sub_titulo = page_source.find('h2', class_='text-center')
-        # format_sub = sub_titulo.text
-        # print(' --SUB TITULO : ',format_sub)
-        
-        get_text = page_source.find('h4', class_='ng-binding')
-        # format_text = get_text.text
-        # print(' --ARTIGO : ',format_text)
-        
-        print('---------------------------------------------')
+url = "COLOQUE AQUI SUA URL"
 
-        sleep(7200)
-    full_scrapping()
+driver.get(url)
+sleep(3)
+
+
+todos_municipios = driver.find_elements(By.CSS_SELECTOR, "body > div.conteudo > div.container-fluid.dvg-main-wrap > div > div > section:nth-child(3) > div > div > table > tbody > tr:nth-child(2)")
+
+municipios_data = []
+
+for municipio in todos_municipios:
+    
+    # Clicando no município para obter as informações das pessoas
+    municipio.click()
+    sleep(3)
+    
+
+    todas_pessoas = driver.find_elements(By.CSS_SELECTOR, "body > div.conteudo > div.container-fluid.dvg-main-wrap > div > div > section:nth-child(3) > div > div > table.table.table-hover.visible-md.visible-lg > tbody > tr:nth-child(1) > td:nth-child(1) > a")
+    
+    
+    for pessoa in todas_pessoas:
         
-while True:
-    Exec_scrapping()
+        # Obtendo as informações da pessoa
+        pessoa_link = pessoa.get_attribute("href")
+        municipios_data.append(pessoa_link)
+        
+        for link in pessoa_link:
+            
+            driver.get(pessoa_link)
+            sleep(3)
+            
+            # Pegar as informação pessoais
+            
+            
+            ###############################
+            driver.back()
+        
+        pessoa_data = pessoa.text
+        municipios_data.append(pessoa_data)
+    
+
+    driver.back()
+    sleep(2)
+
+
+driver.quit()
+
+
+df = pd.DataFrame(municipios_data, columns=["Informacoes"])
+print(df)
