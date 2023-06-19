@@ -1,6 +1,6 @@
 # raspagemdedados
 ambiente para scraping:
-As bibliotecas que você importou estão corretas para executar o web scraping com Selenium no Python. Aqui está uma breve descrição de cada uma delas:
+As bibliotecas que você precisa para executar o web scraping com Selenium no Python. Aqui está uma breve descrição de cada uma delas:
 pandas: Uma biblioteca popular para análise de dados em Python. Ela fornece estruturas de dados poderosas, como o DataFrame, que é útil para manipular e analisar os dados coletados durante o web scraping.
 selenium: A biblioteca principal para automação de navegador. Ela permite controlar um navegador web por meio do código Python, interagindo com elementos da página, enviando cliques, preenchendo formulários, entre outras ações.
 selenium.webdriver.chrome.service: Módulo que fornece a classe Service, usada para gerenciar o serviço do ChromeDriver, que é responsável por iniciar o navegador Google Chrome.
