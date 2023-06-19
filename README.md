@@ -12,9 +12,12 @@ openpyxl: Biblioteca usada para trabalhar com arquivos do Excel no formato xlsx.
 BIBLIOTECAS USADAS:
 
 pip install pandas
+
 pip install selenium
+
 pip install webdriver_manager
+
 pip install openpyxl
-```
+
 
 Esses comandos irão instalar as bibliotecas `pandas`, `selenium`, `webdriver_manager` e `openpyxl` em seu ambiente Python. Certifique-se de ter o Python e o pip instalados corretamente antes de executar esses comandos.
