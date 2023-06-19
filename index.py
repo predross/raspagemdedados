@@ -46,7 +46,7 @@ for municipio in todos_municipios:
         # Pegar as informações pessoais
         nome_pessoas = driver.find_elements(By.CSS_SELECTOR, "body > div.conteudo > div.container-fluid.dvg-main-wrap > div > div:nth-child(1) > section:nth-child(3) > div > div.col-md-7 > div.row > div:nth-child(1) > div > div.text > h3")
          
-        nome = driver.find() # type: ignore
+        nome = driver.find_elements(By.CLASS_NAME, "body > div.conteudo > div.container-fluid.dvg-main-wrap > div > div:nth-child(1) > section:nth-child(3) > div > div.col-md-7 > div.row > div:nth-child(1) > div > div.text > h3") # type: ignore
 
 
         driver.back()
@@ -59,4 +59,3 @@ driver.quit()
 
 df = pd.DataFrame(municipios_data, columns=["Informacoes"])
 print(df)
-
